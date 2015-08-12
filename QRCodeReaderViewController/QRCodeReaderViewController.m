@@ -222,22 +222,23 @@
 
 - (void)setupAutoLayoutConstraints
 {
-  NSDictionary *views = NSDictionaryOfVariableBindings(_cameraView, _cancelButton);
+  id topGuide = self.topLayoutGuide;
+  NSDictionary *views = NSDictionaryOfVariableBindings(_cameraView, _cancelButton, topGuide);
 
   CGFloat cancelButtonHeight = _cancelButton.titleLabel.text.length > 0 ? 40.f : 0.f;
    
   [self.view addConstraints:
-   [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[_cameraView][_cancelButton(%2.f)]|", cancelButtonHeight] options:0 metrics:nil views:views]];
+   [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[topGuide][_cameraView][_cancelButton(%.2f)]|", cancelButtonHeight] options:0 metrics:nil views:views]];
   [self.view addConstraints:
    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_cameraView]|" options:0 metrics:nil views:views]];
   [self.view addConstraints:
    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_cancelButton]-|" options:0 metrics:nil views:views]];
 
   if (_switchCameraButton) {
-    NSDictionary *switchViews = NSDictionaryOfVariableBindings(_switchCameraButton);
+    NSDictionary *switchViews = NSDictionaryOfVariableBindings(_switchCameraButton, topGuide);
 
     [self.view addConstraints:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_switchCameraButton(50)]" options:0 metrics:nil views:switchViews]];
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-(10)-[_switchCameraButton(50)]" options:0 metrics:nil views:switchViews]];
     [self.view addConstraints:
      [NSLayoutConstraint constraintsWithVisualFormat:@"H:[_switchCameraButton(70)]|" options:0 metrics:nil views:switchViews]];
   }
