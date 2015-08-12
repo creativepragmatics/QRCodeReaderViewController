@@ -82,10 +82,6 @@
     self.codeReader           = codeReader;
     self.startScanningAtLoad  = startScanningAtLoad;
 
-    if (cancelTitle == nil) {
-      cancelTitle = NSLocalizedString(@"Cancel", @"Cancel");
-    }
-
     [self setupUIComponentsWithCancelButtonTitle:cancelTitle];
     [self setupAutoLayoutConstraints];
 
@@ -228,8 +224,10 @@
 {
   NSDictionary *views = NSDictionaryOfVariableBindings(_cameraView, _cancelButton);
 
+  CGFloat cancelButtonHeight = _cancelButton.titleLabel.text.length > 0 ? 40.f : 0.f;
+   
   [self.view addConstraints:
-   [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_cameraView][_cancelButton(40)]|" options:0 metrics:nil views:views]];
+   [NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|[_cameraView][_cancelButton(%2.f)]|", cancelButtonHeight] options:0 metrics:nil views:views]];
   [self.view addConstraints:
    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_cameraView]|" options:0 metrics:nil views:views]];
   [self.view addConstraints:
